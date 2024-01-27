@@ -60,7 +60,7 @@ export default function Home() {
 async function joinGame(gameId: string, playerName: string, playerId: string):Promise<object>{
     const response = await fetch(`${firebaseConfig.baseUrl}/${gameId}/players/${playerId}`, {
         method: 'PATCH',
-        body: JSON.stringify(toFirebaseObject({name: playerName})),
+        body: JSON.stringify(toFirebaseObject({name: playerName, playerId: playerId})),
         headers: {
             'Content-Type': 'application/json'
         }

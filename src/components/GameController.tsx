@@ -50,6 +50,9 @@ export default function GameController(props: GameControllerProps) {
                 if (responseJson.updateTime === lastUpdate) return
                 setLastUpdate(responseJson.updateTime)
 
+                // expect that hand might not exist, do nothing and return
+                if(responseJson.error?.code === 404) return
+
                 const cards = cardsFromFirebaseObject(responseJson)
                 setHand(cards);
             } catch (error: any) {
@@ -66,11 +69,13 @@ export default function GameController(props: GameControllerProps) {
     }, [error, hand, lastUpdate, props.gameId, props.playerId]);
 
     return <div>
-        {hand.map((card: CardIf, index) => <Card key={index} card={card} selector={setSelectedCard}></Card>)}
+        {hand.length === 0 && <div>Waiting for server</div>}
+        {hand.length > 0 && hand.map((card: CardIf, index) => <Card key={index} card={card} selector={setSelectedCard}></Card>)}
 
-        {<ConfirmCardButton card={selectedCard} confirmCard={confirmCard}/>}
+        {hand.length > 0 && <ConfirmCardButton card={selectedCard} confirmCard={confirmCard}/>}
 
         {error && <div>{error}</div>}
+
     </div>
 }
 

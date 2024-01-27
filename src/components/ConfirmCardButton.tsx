@@ -19,7 +19,7 @@ export default function ConfirmCardButton(props: {card?: CardIf | undefined | nu
                 await props.confirmCard();
                 setLoading(false);
             }} disabled={!props.card || loading}>
-                {!!props.card? `Confirm :loading ${loading}` : "Select a card"}
+                {!!props.card? loading? 'Sending' : `Confirm Selected` : "Select a card"}
             </button>
         </div>
     )
