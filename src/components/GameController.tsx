@@ -66,7 +66,7 @@ export default function GameController(props: GameControllerProps) {
     }, [error, hand, lastUpdate, props.gameId, props.playerId]);
 
     return <div>
-        {hand.map((card: CardIf) => <Card card={card} selector={setSelectedCard}></Card>)}
+        {hand.map((card: CardIf, index) => <Card key={index} card={card} selector={setSelectedCard}></Card>)}
 
         {<ConfirmCardButton card={selectedCard} confirmCard={confirmCard}/>}
 
