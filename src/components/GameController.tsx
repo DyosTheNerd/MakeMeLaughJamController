@@ -11,8 +11,6 @@ type GameControllerProps = {
 }
 
 
-
-
 // a simple functional react component to render the game state
 export default function GameController(props: GameControllerProps) {
     const [hand, setHand] = useState<CardIf[]>([])
@@ -22,11 +20,15 @@ export default function GameController(props: GameControllerProps) {
     const [lastUpdate, setLastUpdate] = useState<string | null>(null)
 
 
-    const confirmCard = async ()=> {
+    const confirmCard = async () => {
         const result = await fetch(`${firebaseConfig.baseUrl}/${props.gameId}/actions/action_${props.playerId}`,
-            {method: "PATCH", body: JSON.stringify(toFirebaseObject({id:selectedCard?.id}))})
+            {
+                method: "PATCH", body: JSON.stringify(toFirebaseObject({
+                    id: selectedCard?.id, playerId: props.playerId,
+                }))
+            })
         const resultJson: any = await result.json()
-        if (parseInt(resultJson?.fields?.id?.integerValue) !== selectedCard?.id){
+        if (parseInt(resultJson?.fields?.id?.integerValue) !== selectedCard?.id) {
             setError("Could not confirm card")
         } else {
             setHand([])
@@ -41,16 +43,16 @@ export default function GameController(props: GameControllerProps) {
         const fetchData = async () => {
 
             try {
-                if (error || hand.length> 0) return
+                if (error || hand.length > 0) return
                 const response = await fetch(`${firebaseConfig.baseUrl}/${props.gameId}/hands/hand_${props.playerId}`)
                 const responseJson = await response.json()
 
-                if (responseJson.fields.updateTime === lastUpdate) return
-                setLastUpdate(responseJson.fields.updateTime)
+                if (responseJson.updateTime === lastUpdate) return
+                setLastUpdate(responseJson.updateTime)
 
                 const cards = cardsFromFirebaseObject(responseJson)
                 setHand(cards);
-            } catch (error:any) {
+            } catch (error: any) {
                 setError(error.message)
                 console.error('Error fetching data:', error);
             }
@@ -61,7 +63,7 @@ export default function GameController(props: GameControllerProps) {
         const intervalId = setInterval(fetchData, 5000);
 
         return () => clearInterval(intervalId);
-    }, [error, hand,lastUpdate]);
+    }, [error, hand, lastUpdate]);
 
     return <div>
         {hand.map((card: CardIf) => <Card card={card} selector={setSelectedCard}></Card>)}
