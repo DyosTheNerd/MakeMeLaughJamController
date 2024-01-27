@@ -2,6 +2,8 @@
 
 import {useState} from "react";
 import {GameResponse} from "@/types/GameResponse";
+import {firebaseConfig, toFirebaseObject} from "@/helpers/FirebaseHelper";
+import GameController from "@/components/GameController";
 
 
 function successMessage(guessedNumber: number, gameData: GameResponse) {
@@ -13,41 +15,55 @@ function successMessage(guessedNumber: number, gameData: GameResponse) {
 }
 
 export default function Home() {
-    const [apiData, setApiData] = useState<GameResponse | null>(null);
-    const [revealedEntries, setRevealedEntries] = useState(0);
-    const [allRevealed, setAllRevealed] = useState(false)
-    const [guessedNumber, setGuessedNumber] = useState<number>(-1)
-    const [requested, setRequested] = useState(false)
+    const [apiData, setApiData] = useState<object | null>(null);
+
+    const [gameId, setGameId] = useState<string | null>(null);
+    const [playerName, setPlayerName] = useState<string | null>(null);
+    const [joined, setJoined] = useState<boolean>(false);
+    const [playerId, setPlayerId] = useState<string | null>(Math.random().toString(36).substring(7));
+
+
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
             <div>
+                {joined?
+                    <div>
+                        <p>Game {gameId}</p>
+                        <p>Player {playerName}</p>
+                        {
+                            <GameController gameId={gameId || ''} playerId={playerId || ''} ></GameController>
+                        }
+                    </div>
+                    :<div>
+                        <p>Join a game</p>
+                        <div>GameId: <input type="text" onChange={e => setGameId(e.target.value)} /></div>
 
+                        <div>Name: <input type="text" onChange={e => setPlayerName(e.target.value)} /></div>
 
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                        onClick={() => {
-                            async function fetchData() {
-                                try {
-                                    setRequested(true)
-                                    const response = await fetch('/api/gamedata');
-                                    if (response.ok) {
-                                        const data = await response.json();
-                                        setApiData(data);
-                                        setRevealedEntries(1);
-                                    } else {
-                                        console.error('Failed to fetch data');
-                                    }
-                                } catch (error) {
-                                    console.error('An error occurred:', error);
-                                }
-                            }
+                        <div>PlayerId: <input type="text" onChange={e => setPlayerId(e.target.value)} /></div>
+                        <button  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                            onClick={async ()=>{
+                            if (!gameId || !playerName || !playerId) return
+                            const result:any = await joinGame(gameId, playerName, playerId)
+                            if (result?.fields.name.stringValue === playerName) setJoined(true)
 
-                            fetchData();
-                        }}>
-                    Generate new game.
-                </button>
-
+                        }
+                        }>Join</button>
+                    </div>
+                }
         </div>
 </main>
 )
+}
+
+async function joinGame(gameId: string, playerName: string, playerId: string):Promise<object>{
+    const response = await fetch(`${firebaseConfig.baseUrl}/${gameId}/players/${playerId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(toFirebaseObject({name: playerName})),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    return await response.json();
 }
