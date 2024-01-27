@@ -63,7 +63,7 @@ export default function GameController(props: GameControllerProps) {
         const intervalId = setInterval(fetchData, 5000);
 
         return () => clearInterval(intervalId);
-    }, [error, hand, lastUpdate]);
+    }, [error, hand, lastUpdate, props.gameId, props.playerId]);
 
     return <div>
         {hand.map((card: CardIf) => <Card card={card} selector={setSelectedCard}></Card>)}
