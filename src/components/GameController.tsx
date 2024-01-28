@@ -57,7 +57,7 @@ export default function GameController(props: GameControllerProps) {
                 if(responseJson.error?.code === 404) return
 
                 const cards = cardsFromFirebaseObject(responseJson)
-                setRoundNumber(responseJson.fields.roundNumber?.integerValue || -1)
+                setRoundNumber(parseInt(responseJson.fields.roundNumber?.integerValue) || -1)
                 setHand(cards);
             } catch (error: any) {
                 setError(error.message)
