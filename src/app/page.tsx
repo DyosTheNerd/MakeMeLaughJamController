@@ -5,6 +5,7 @@ import {GameResponse} from "@/types/GameResponse";
 import {firebaseConfig, toFirebaseObject} from "@/helpers/FirebaseHelper";
 import GameController from "@/components/GameController";
 import { useRouter } from 'next/navigation';
+import {getJoke} from "@/service/JokesService";
 
 
 function successMessage(guessedNumber: number, gameData: GameResponse) {
@@ -23,6 +24,7 @@ export default function Home() {
     const [joined, setJoined] = useState<boolean>(false);
     const [playerId, setPlayerId] = useState<string | null>(Math.random().toString(36).substring(7));
     const router = useRouter();
+
 
 
     return (
@@ -69,5 +71,7 @@ async function joinGame(gameId: string, playerName: string, playerId: string):Pr
             'Content-Type': 'application/json'
         }
     });
+    const joke = await getJoke({id: 1, text: "test", type:"dadJoke", intensity:1})
+    console.log(joke)
     return await response.json();
 }

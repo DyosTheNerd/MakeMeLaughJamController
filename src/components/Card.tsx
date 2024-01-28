@@ -1,4 +1,6 @@
 import { Typography, Button } from "@material-tailwind/react";
+import {useEffect, useState} from "react";
+import {getJoke} from "@/service/JokesService";
 
 export type CardIf = {
     id: number;
@@ -12,11 +14,27 @@ export type CardIf = {
 export default function Card(props: { card: CardIf, selector: (val: CardIf) => void }) {
     const {card} = props
 
+    const [joke, setJoke] = useState<string[]>([])
+
+    useEffect(() => {
+
+        const jokeGetter = async () => {
+            const theJoke = await getJoke(card)
+            setJoke(theJoke)
+            return theJoke
+        }
+
+        jokeGetter()
+
+        return
+    }, [props.card]);
+
+
     return  <div className="relative  max-h-screen max-w-screen">
         <img
             src="/images/index.png"
             alt="image 1"
-            className=" object-cover  max-h-screen w-full"
+            className=" object-cover  h-full w-full"
         />
 
         <div className="absolute inset-0 grid  place-items-center bg-black/50">
@@ -35,7 +53,7 @@ export default function Card(props: { card: CardIf, selector: (val: CardIf) => v
                     className="mb-12 opacity-80 text-left"
                     placeholder={undefined}
                 >
-                    This is a funny joke
+                    {joke}
                 </Typography>
                 <div className="flex justify-center gap-4 ">
                     <Button size="lg" color="white" onClick={() => {

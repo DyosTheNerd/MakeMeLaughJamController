@@ -1,7 +1,8 @@
 import {CardIf} from "@/components/Card";
 
 export const firebaseConfig = {
-    baseUrl : 'https://firestore.googleapis.com/v1/projects/makemelaughjam/databases/(default)/documents/games'
+    baseUrl : 'https://firestore.googleapis.com/v1/projects/makemelaughjam/databases/(default)/documents/games',
+    jokesUrl: 'https://firestore.googleapis.com/v1/projects/makemelaughjam/databases/(default)/documents/jokes'
 }
 
 export function toFirebaseObject(obj: any) {
