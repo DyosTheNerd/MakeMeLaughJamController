@@ -12,13 +12,13 @@ export type CardIf = {
 export default function Card(props: { card: CardIf, selector: (val: CardIf) => void }) {
     const {card} = props
 
-    return  <div className="relative h-full w-full">
+    return  <div className="relative  max-h-96">
         <img
-            src="https://images.freeimages.com/images/large-previews/14e/notepad-1198011.jpg"
+            src="/images/index.png"
             alt="image 1"
-            className="w-full object-cover h-full max-h-96"
+            className=" object-cover  max-h-96"
         />
-        <div className="absolute inset-0 grid h-full w-full place-items-center bg-black/50">
+        <div className="absolute inset-0 grid  place-items-center bg-black/50">
             <div className="w-3/4 text-center md:w-2/4">
                 <Typography
                     variant="h1"
