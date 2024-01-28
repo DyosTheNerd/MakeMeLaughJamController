@@ -14,20 +14,6 @@ export type CardIf = {
 export default function Card(props: { card: CardIf, selector: (val: CardIf) => void }) {
     const {card} = props
 
-    const [joke, setJoke] = useState<string[]>([])
-
-    useEffect(() => {
-
-        const jokeGetter = async () => {
-            const theJoke = await getJoke(card)
-            setJoke(theJoke)
-            return theJoke
-        }
-
-        jokeGetter()
-
-        return
-    }, [props.card]);
 
 
     return  <div className="relative  max-h-screen max-w-screen">
@@ -53,7 +39,7 @@ export default function Card(props: { card: CardIf, selector: (val: CardIf) => v
                     className="mb-12 opacity-80 text-left"
                     placeholder={undefined}
                 >
-                    {joke}
+                    {getJoke(card)}
                 </Typography>
                 <div className="flex justify-center gap-4 ">
                     <Button size="lg" color="white" onClick={() => {

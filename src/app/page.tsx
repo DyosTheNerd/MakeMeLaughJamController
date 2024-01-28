@@ -5,7 +5,7 @@ import {GameResponse} from "@/types/GameResponse";
 import {firebaseConfig, toFirebaseObject} from "@/helpers/FirebaseHelper";
 import GameController from "@/components/GameController";
 import { useRouter } from 'next/navigation';
-import {getJoke} from "@/service/JokesService";
+import {getJoke, initJokes} from "@/service/JokesService";
 
 
 function successMessage(guessedNumber: number, gameData: GameResponse) {
@@ -71,7 +71,7 @@ async function joinGame(gameId: string, playerName: string, playerId: string):Pr
             'Content-Type': 'application/json'
         }
     });
-    const joke = await getJoke({id: 1, text: "test", type:"dadJoke", intensity:1})
-    console.log(joke)
+    initJokes();
+
     return await response.json();
 }

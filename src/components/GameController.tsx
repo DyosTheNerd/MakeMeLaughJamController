@@ -1,12 +1,10 @@
 'use client'
 
 import {useEffect, useState} from "react";
-import Card, {CardIf} from "@/components/Card";
+import  {CardIf} from "@/components/Card";
 import {cardsFromFirebaseObject, firebaseConfig, toFirebaseObject} from "@/helpers/FirebaseHelper";
-import ConfirmCardButton from "@/components/ConfirmCardButton";
 import {JokeCarousel} from "@/components/JokeCarousel";
-import {getJoke} from "@/service/JokesService";
-import {round} from "@floating-ui/utils";
+import { initJokes} from "@/service/JokesService";
 
 type GameControllerProps = {
     gameId: string;
@@ -67,7 +65,7 @@ export default function GameController(props: GameControllerProps) {
 
         fetchData();
 
-        getJoke({id: 2, text: "test", type:"dadJoke", intensity:2});
+        initJokes();
 
         const intervalId = setInterval(fetchData, 5000);
 
