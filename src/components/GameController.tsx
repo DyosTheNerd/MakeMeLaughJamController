@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import Card, {CardIf} from "@/components/Card";
 import {cardsFromFirebaseObject, firebaseConfig, toFirebaseObject} from "@/helpers/FirebaseHelper";
 import ConfirmCardButton from "@/components/ConfirmCardButton";
+import {JokeCarousel} from "@/components/JokeCarousel";
 
 type GameControllerProps = {
     gameId: string;
@@ -20,11 +21,11 @@ export default function GameController(props: GameControllerProps) {
     const [lastUpdate, setLastUpdate] = useState<string | null>(null)
 
 
-    const confirmCard = async () => {
+    const confirmCard = async (card:CardIf) => {
         const result = await fetch(`${firebaseConfig.baseUrl}/${props.gameId}/actions/action_${props.playerId}`,
             {
                 method: "PATCH", body: JSON.stringify(toFirebaseObject({
-                    id: selectedCard?.id, playerId: props.playerId,
+                    id: card.id, playerId: props.playerId,
                 }))
             })
         const resultJson: any = await result.json()
@@ -70,9 +71,9 @@ export default function GameController(props: GameControllerProps) {
 
     return <div>
         {hand.length === 0 && <div>Waiting for server</div>}
-        {hand.length > 0 && hand.map((card: CardIf, index) => <Card key={index} card={card} selector={setSelectedCard}></Card>)}
 
-        {hand.length > 0 && <ConfirmCardButton card={selectedCard} confirmCard={confirmCard}/>}
+        {hand.length >0 && <JokeCarousel cards={hand} selector={ confirmCard}></JokeCarousel>}
+
 
         {error && <div>{error}</div>}
 

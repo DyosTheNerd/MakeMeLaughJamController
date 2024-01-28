@@ -4,6 +4,8 @@ import {useState} from "react";
 import {GameResponse} from "@/types/GameResponse";
 import {firebaseConfig, toFirebaseObject} from "@/helpers/FirebaseHelper";
 import GameController from "@/components/GameController";
+import {JokeCarousel} from "@/components/JokeCarousel";
+
 
 
 function successMessage(guessedNumber: number, gameData: GameResponse) {
