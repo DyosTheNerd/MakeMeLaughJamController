@@ -9,8 +9,8 @@ export type JokeCarouselProps= {
 
 export function JokeCarousel(props: JokeCarouselProps) {
     return (
-        <Carousel className="rounded-xl" children={props.cards.map(card => <Card card={card} selector={props.selector}></Card>)} placeholder={undefined} >
-
+        <Carousel className="rounded-xl"  placeholder={undefined} >
+            {props.cards.map((card,index) => <Card key={index} card={card} selector={props.selector}></Card>)}
         </Carousel>
     );
 }
