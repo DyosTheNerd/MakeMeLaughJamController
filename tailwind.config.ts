@@ -17,8 +17,13 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      fontFamily: {
+        customFont: ['Permanent Marker', "sans-serif"],
+        // Add more custom font families as needed
+      },
     },
   },
   plugins: [],
 }
 module.exports = withMT(config);
+

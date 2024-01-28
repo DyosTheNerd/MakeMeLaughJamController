@@ -14,35 +14,33 @@ export default function Card(props: { card: CardIf, selector: (val: CardIf) => v
 
     return  <div className="relative h-full w-full">
         <img
-            src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
+            src="https://images.freeimages.com/images/large-previews/14e/notepad-1198011.jpg"
             alt="image 1"
-            className="h-full w-full object-cover"
+            className="w-full object-cover h-full max-h-96"
         />
-        <div className="absolute inset-0 grid h-full w-full place-items-center bg-black/75">
+        <div className="absolute inset-0 grid h-full w-full place-items-center bg-black/50">
             <div className="w-3/4 text-center md:w-2/4">
                 <Typography
                     variant="h1"
-                    color="white"
-                    className="mb-4 text-3xl md:text-4xl lg:text-5xl"
+                    color="black"
+                    className="mb-4 text-2xl md:text-4xl lg:text-2xl font-customFont text-left"
                     placeholder={undefined}                >
-                    The Beauty of Nature
+                    Type: {card.type}<br></br>
+                    Fun Factor: {card.intensity}
                 </Typography>
                 <Typography
                     variant="lead"
-                    color="white"
-                    className="mb-12 opacity-80"
+                    color="black"
+                    className="mb-12 opacity-80 text-left"
                     placeholder={undefined}
                 >
-                    It is not so much for its beauty that the forest makes a claim
-                    upon men&apos;s hearts, as for that subtle something, that quality
-                    of air that emanation from old trees, that so wonderfully changes
-                    and renews a weary spirit.
+                    This is a funny joke
                 </Typography>
-                <div className="flex justify-center gap-2">
+                <div className="flex justify-center gap-2 ">
                     <Button size="lg" color="white" onClick={() => {
                         props.selector(props.card);
                     }}  placeholder={undefined}>
-                        Confirm
+                        Make this joke
                     </Button>
                 </div>
             </div>

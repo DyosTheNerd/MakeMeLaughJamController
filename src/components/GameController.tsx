@@ -29,7 +29,7 @@ export default function GameController(props: GameControllerProps) {
                 }))
             })
         const resultJson: any = await result.json()
-        if (parseInt(resultJson?.fields?.id?.integerValue) !== selectedCard?.id) {
+        if (parseInt(resultJson?.fields?.id?.integerValue) !== card.id) {
             setError("Could not confirm card")
         } else {
             setHand([])
