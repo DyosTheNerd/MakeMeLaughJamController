@@ -24,13 +24,14 @@ export default function Card(props: { card: CardIf, selector: (val: CardIf) => v
                     variant="h1"
                     color="white"
                     className="mb-4 text-3xl md:text-4xl lg:text-5xl"
-                >
+                    placeholder={undefined}                >
                     The Beauty of Nature
                 </Typography>
                 <Typography
                     variant="lead"
                     color="white"
                     className="mb-12 opacity-80"
+                    placeholder={undefined}
                 >
                     It is not so much for its beauty that the forest makes a claim
                     upon men&apos;s hearts, as for that subtle something, that quality
@@ -38,7 +39,9 @@ export default function Card(props: { card: CardIf, selector: (val: CardIf) => v
                     and renews a weary spirit.
                 </Typography>
                 <div className="flex justify-center gap-2">
-                    <Button size="lg" color="white" onClick={() => {props.selector(props.card)}}>
+                    <Button size="lg" color="white" onClick={() => {
+                        props.selector(props.card);
+                    }}  placeholder={undefined}>
                         Confirm
                     </Button>
                 </div>
