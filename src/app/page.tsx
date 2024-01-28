@@ -4,8 +4,7 @@ import {useState} from "react";
 import {GameResponse} from "@/types/GameResponse";
 import {firebaseConfig, toFirebaseObject} from "@/helpers/FirebaseHelper";
 import GameController from "@/components/GameController";
-import {JokeCarousel} from "@/components/JokeCarousel";
-
+import { useRouter } from 'next/navigation';
 
 
 function successMessage(guessedNumber: number, gameData: GameResponse) {
@@ -23,7 +22,7 @@ export default function Home() {
     const [playerName, setPlayerName] = useState<string | null>(null);
     const [joined, setJoined] = useState<boolean>(false);
     const [playerId, setPlayerId] = useState<string | null>(Math.random().toString(36).substring(7));
-
+    const router = useRouter();
 
 
     return (
@@ -48,8 +47,10 @@ export default function Home() {
                             onClick={async ()=>{
                             if (!gameId || !playerName || !playerId) return
                             const result:any = await joinGame(gameId, playerName, playerId)
-                            if (result?.fields.name.stringValue === playerName) setJoined(true)
-
+                            if (result?.fields.name.stringValue === playerName) {
+                                setJoined(true);
+                                await router.push(`/game/${gameId}/player/${playerId}`)
+                            }
                         }
                         }>Join</button>
                     </div>
