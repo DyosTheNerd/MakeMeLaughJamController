@@ -28,15 +28,15 @@ export default function Card(props: { card: CardIf, selector: (val: CardIf) => v
                 <Typography
                     variant="h1"
                     color="black"
-                    className="mb-4 text-2xl md:text-4xl lg:text-2xl font-customFont text-left "
+                    className="mb-4 text-2xl md:text-4xl lg:text-2xl font-permanent-marker text-left "
                     placeholder={undefined}                >
                     Type: {card.type}<br></br>
-                    Fun Factor: {card.intensity}
+                    Intensity: {card.intensity}
                 </Typography>
                 <Typography
                     variant="lead"
                     color="black"
-                    className="mb-12 opacity-80 text-left"
+                    className="mb-12 opacity-80 text-left font-permanent-marker"
                     placeholder={undefined}
                 >
                     {getJoke(card)}
