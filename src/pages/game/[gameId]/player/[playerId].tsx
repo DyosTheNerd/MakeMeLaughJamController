@@ -8,9 +8,7 @@ export default function GameComponent({params}: { params: any }) {
     const playerId = `${useRouter().query.playerId}`;
 
     return (
-            <main className="flex min-h-screen flex-col items-center justify-between p-24">
 
                     <GameController gameId={gameId || ''} playerId={playerId || ''} ></GameController>
-            </main>
     )
 }
