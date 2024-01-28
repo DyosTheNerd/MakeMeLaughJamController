@@ -39,7 +39,7 @@ export default function Home() {
                         }
                     </div>
                     :<div>
-                        <h1  className="mb-4 text-2xl md:text-4xl lg:text-2xl ">Aliens laughing in earth now </h1>
+                        <h1  className="mb-4 text-2xl md:text-4xl lg:text-2xl ">Stand-Up: Antagonistic Laughter Interception & Entertainment Network</h1>
                         <h2  className="mb-4 text-1xl md:text-3xl lg:text-2xl ">Join game</h2>
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2">GameId</label> <input type="text" onChange={e => setGameId(e.target.value)} /></div>
