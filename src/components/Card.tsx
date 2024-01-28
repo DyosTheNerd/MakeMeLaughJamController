@@ -20,11 +20,11 @@ export default function Card(props: { card: CardIf, selector: (val: CardIf) => v
         <img
             src="/images/index.png"
             alt="image 1"
-            className=" object-cover  h-full w-full"
+            className=" object-cover  h-screen w-full"
         />
 
-        <div className="absolute inset-0 grid  place-items-center bg-black/50">
-            <div className="w-3/4 text-center ">
+        <div className="absolute inset-0 grid  place-items-center bg-black/50 h-full">
+            <div className="w-3/4 text-center flex-grow ">
                 <Typography
                     variant="h1"
                     color="black"
@@ -41,13 +41,14 @@ export default function Card(props: { card: CardIf, selector: (val: CardIf) => v
                 >
                     {getJoke(card)}
                 </Typography>
-                <div className="flex justify-center gap-4 ">
-                    <Button size="lg" color="white" onClick={() => {
-                        props.selector(props.card);
-                    }}  placeholder={undefined}>
-                        Make this joke
-                    </Button>
-                </div>
+
+            </div>
+            <div className="justify-center p-0">
+                <Button size="lg" color="white" onClick={() => {
+                    props.selector(props.card);
+                }}  placeholder={undefined}>
+                    Make this joke
+                </Button>
             </div>
         </div>
 
