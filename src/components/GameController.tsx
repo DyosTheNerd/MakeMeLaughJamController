@@ -6,6 +6,7 @@ import {cardsFromFirebaseObject, firebaseConfig, toFirebaseObject} from "@/helpe
 import ConfirmCardButton from "@/components/ConfirmCardButton";
 import {JokeCarousel} from "@/components/JokeCarousel";
 import {getJoke} from "@/service/JokesService";
+import {round} from "@floating-ui/utils";
 
 type GameControllerProps = {
     gameId: string;
@@ -20,13 +21,13 @@ export default function GameController(props: GameControllerProps) {
     const [selectedCard, setSelectedCard] = useState<CardIf | null>(null)
     const [error, setError] = useState<string | null>(null)
     const [lastUpdate, setLastUpdate] = useState<string | null>(null)
-
+    const [roundNumber, setRoundNumber] = useState<number | null>(null)
 
     const confirmCard = async (card:CardIf) => {
         const result = await fetch(`${firebaseConfig.baseUrl}/${props.gameId}/actions/action_${props.playerId}`,
             {
                 method: "PATCH", body: JSON.stringify(toFirebaseObject({
-                    id: card.id, playerId: props.playerId,
+                    id: card.id, playerId: props.playerId,roundNumber
                 }))
             })
         const resultJson: any = await result.json()
@@ -56,6 +57,7 @@ export default function GameController(props: GameControllerProps) {
                 if(responseJson.error?.code === 404) return
 
                 const cards = cardsFromFirebaseObject(responseJson)
+                setRoundNumber(responseJson.fields.roundNumber?.integerValue || -1)
                 setHand(cards);
             } catch (error: any) {
                 setError(error.message)
@@ -70,7 +72,7 @@ export default function GameController(props: GameControllerProps) {
         const intervalId = setInterval(fetchData, 5000);
 
         return () => clearInterval(intervalId);
-    }, [error, hand, lastUpdate, props.gameId, props.playerId]);
+    }, [error, hand, lastUpdate, props.gameId, props.playerId, roundNumber]);
 
     return <div>
         {hand.length === 0 && <div>Waiting for server</div>}
