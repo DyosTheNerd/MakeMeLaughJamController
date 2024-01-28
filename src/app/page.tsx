@@ -37,13 +37,14 @@ export default function Home() {
                         }
                     </div>
                     :<div>
-                        <p>Join a game</p>
-                        <div>GameId: <input type="text" onChange={e => setGameId(e.target.value)} /></div>
+                        <h1  className="mb-4 text-2xl md:text-4xl lg:text-2xl ">Aliens laughing in earth now </h1>
+                        <h2  className="mb-4 text-1xl md:text-3xl lg:text-2xl ">Join game</h2>
+                            <div className="mb-4">
+                                <label className="block text-gray-700 text-sm font-bold mb-2">GameId</label> <input type="text" onChange={e => setGameId(e.target.value)} /></div>
 
-                        <div>Name: <input type="text" onChange={e => setPlayerName(e.target.value)} /></div>
-
-                        <div>PlayerId: <input type="text" onChange={e => setPlayerId(e.target.value)} /></div>
-                        <button  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                        <div className="mb-4"><label className="block text-gray-700 text-sm font-bold mb-2">Name</label>  <input type="text" onChange={e => setPlayerName(e.target.value)} /></div>
+                        {process.env.NODE_ENV === "development" && <div className="mb-4"><label className="block text-gray-700 text-sm font-bold mb-2">PlayerId:</label> <input type="text" onChange={e => setPlayerId(e.target.value)} /></div>}
+                        <button  className="mb-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
                             onClick={async ()=>{
                             if (!gameId || !playerName || !playerId) return
                             const result:any = await joinGame(gameId, playerName, playerId)
