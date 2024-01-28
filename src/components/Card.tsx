@@ -12,18 +12,19 @@ export type CardIf = {
 export default function Card(props: { card: CardIf, selector: (val: CardIf) => void }) {
     const {card} = props
 
-    return  <div className="relative  max-h-96">
+    return  <div className="relative  max-h-screen max-w-screen">
         <img
             src="/images/index.png"
             alt="image 1"
-            className=" object-cover  max-h-96"
+            className=" object-cover  max-h-screen w-full"
         />
+
         <div className="absolute inset-0 grid  place-items-center bg-black/50">
-            <div className="w-3/4 text-center md:w-2/4">
+            <div className="w-3/4 text-center ">
                 <Typography
                     variant="h1"
                     color="black"
-                    className="mb-4 text-2xl md:text-4xl lg:text-2xl font-customFont text-left"
+                    className="mb-4 text-2xl md:text-4xl lg:text-2xl font-customFont text-left "
                     placeholder={undefined}                >
                     Type: {card.type}<br></br>
                     Fun Factor: {card.intensity}
@@ -36,7 +37,7 @@ export default function Card(props: { card: CardIf, selector: (val: CardIf) => v
                 >
                     This is a funny joke
                 </Typography>
-                <div className="flex justify-center gap-2 ">
+                <div className="flex justify-center gap-4 ">
                     <Button size="lg" color="white" onClick={() => {
                         props.selector(props.card);
                     }}  placeholder={undefined}>
