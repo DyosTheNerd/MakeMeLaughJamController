@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import io, {Socket} from 'Socket.IO-client'
-import {DefaultEventsMap} from "@socket.io/component-emitter";
-let socket:Socket<DefaultEventsMap, DefaultEventsMap>
+import io from 'socket.io-client'
+
+let socket:  SocketIOClient.Socket
 
 const Home = () => {
     const [input, setInput] = useState('')
@@ -18,7 +18,7 @@ const Home = () => {
             console.log('connected')
         })
 
-        socket.on('update-input', msg => {
+        socket.on('update-input', (msg: any) => {
             setInput(msg)
         })
     }
