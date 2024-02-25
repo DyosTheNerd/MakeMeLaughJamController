@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 
-let socket:  SocketIOClient.Socket
+let socket:  any
 
 const Home = () => {
     const [input, setInput] = useState('')
@@ -17,10 +17,12 @@ const Home = () => {
         socket.on('connect', () => {
             console.log('connected')
         })
+        socket.onAny((event: string, ...args:string[]) => {})
 
         socket.on('update-input', (msg: any) => {
             setInput(msg)
         })
+
     }
 
     const onChangeHandler = (e: any) => {
