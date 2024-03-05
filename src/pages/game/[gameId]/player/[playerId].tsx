@@ -7,8 +7,8 @@ export default function GameComponent({params}: { params: any }) {
     const gameId  = `${useRouter().query.gameId}`;
     const playerId = `${useRouter().query.playerId}`;
 
-    return (
-
+    return (<div>{gameId}<br></br>{playerId}
                     <GameController gameId={gameId || ''} playerId={playerId || ''} ></GameController>
+        </div>
     )
 }

@@ -18,6 +18,9 @@ export default function GameComponent({params}: { params: any }) {
     const [socket, setSocket] = useState<any>(null)
 
     const handleQRGenerator = useCallback((gameId: ReactUnityEventParameter): ReactUnityEventParameter => {
+        if (!isLoaded) {
+            return;
+        }
         fetch(`/api/server/setup?id=${gameId}`, {
             method: 'GET',
             headers: {},
@@ -27,11 +30,18 @@ export default function GameComponent({params}: { params: any }) {
             return sendMessage('QRDataPresenterUI', 'ReceiveQRData', result.split(',')[1])
         });
         return "";
-    }, [unityProvider, sendMessage, addEventListener])
+    }, [unityProvider, sendMessage, addEventListener,isLoaded])
 
     const handleInit = useCallback( (id: ReactUnityEventParameter): ReactUnityEventParameter => {
+        if (!isLoaded) {
+            return;
+        }
         console.log(id)
-        fetch('/api/socket/client').then(async(response) => {
+        fetch(`/api/socket/client?id=${id}&server=true`).then(async(response) => {
+            if(!!socket){
+                return
+            }
+
             const localSocket = io()
             setSocket(localSocket)
             localSocket.onAny((topic: string, ...args:string[]) => {
@@ -43,29 +53,40 @@ export default function GameComponent({params}: { params: any }) {
                     sendMessage('WebGLWebsocketAdapter', 'ReceiveWebsocketMessage', JSON.stringify(ifData))
                 }
             })
+            localSocket.emit('startServer', JSON.stringify({id}))
+
         });
 
 
-    },[unityProvider, sendMessage, addEventListener,socket])
+    },[unityProvider, sendMessage, addEventListener,socket,isLoaded])
 
-    const handleSend = useCallback((topic: ReactUnityEventParameter,message:ReactUnityEventParameter): ReactUnityEventParameter => {
-        console.log(topic)
-        console.log(message)
-        socket.emit(topic, message)
+    const handleSend = useCallback((unitySendMessage: ReactUnityEventParameter): ReactUnityEventParameter => {
+        if (!isLoaded || !unitySendMessage) {
+            return;
+        }
+        console.log(unitySendMessage)
+
+        const msgTpc = `${unitySendMessage}`.split('-:-')
+
+        socket?.emit(msgTpc[0], msgTpc[1])
         return ""
 
-    },[unityProvider, sendMessage, addEventListener,socket])
+    },[unityProvider, sendMessage, addEventListener,socket,isLoaded])
 
     useEffect(() => {
         if (!isLoaded) {
             return;
         }
+
         addEventListener("GetGameQrCode", handleQRGenerator)
         addEventListener("WebSocketInit",handleInit)
-        addEventListener("WebSocketSend",handleSend)
+    }, [addEventListener, handleQRGenerator,isLoaded,socket])
 
-
-    }, [addEventListener, handleQRGenerator,isLoaded])
+    useEffect(() => {
+        if (socket && isLoaded) {
+            addEventListener("WebSocketSend", handleSend)
+        }
+    }, [socket, addEventListener]);
 
 
     return <div><Unity unityProvider={unityProvider} id={"abcunit123"} style={{width: 800, height: 600}}/>

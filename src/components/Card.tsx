@@ -1,5 +1,4 @@
 import { Typography, Button } from "@material-tailwind/react";
-import {useEffect, useState} from "react";
 import {getJoke} from "@/service/JokesService";
 
 export type CardIf = {
@@ -13,8 +12,6 @@ export type CardIf = {
 
 export default function Card(props: { card: CardIf, selector: (val: CardIf) => void }) {
     const {card} = props
-
-
 
     return  <div className="relative  max-h-screen max-w-screen">
         <img
@@ -53,10 +50,4 @@ export default function Card(props: { card: CardIf, selector: (val: CardIf) => v
         </div>
 
     </div>
-
-    // return <div className="flex flex-col items-center justify-center w-64 h-64 bg-gray-200 rounded-md shadow-lg"
-    //             onClick={() => props.selector(card)}>
-    //     <div className="text-2xl font-bold">{card.type}</div>
-    //     <div className="text-2xl font-bold">{card.intensity}</div>
-    // </div>
 }
