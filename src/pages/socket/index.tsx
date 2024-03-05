@@ -11,8 +11,8 @@ const Home = () => {
     }, [])
 
     const socketInitializer = async () => {
-        await fetch('/api/socket/client');
-        socket = io()
+
+        socket = io('https://absorbed-north-tornado.glitch.me/')
 
         socket.on('connect', () => {
             console.log('connected')
